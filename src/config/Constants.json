@@ -1,0 +1,14 @@
+{
+    "chainId": 11155111,
+    "chainName": "Scroll Testnet",
+    "rpc": [
+        "https://eth-sepolia-public.unifra.io"
+    ],
+    "explorer": "https://eth-sepolia-public.unifra.io",
+    "contracts": {
+        "creditScore": "0x123456789abcdef"
+    },
+    "api": {
+        "covalent": "cqt_rQKQ8Xf6JXMQX6YpwyqCWKxDJ6tq"
+    }
+}
