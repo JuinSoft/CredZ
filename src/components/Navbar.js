@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaWallet } from 'react-icons/fa';
 import { FiCreditCard, FiDollarSign, FiBookOpen } from 'react-icons/fi';
-import { BsCheckCircle, BsThreeDots } from 'react-icons/bs';
+import { BsCheckCircle } from 'react-icons/bs';
 
 const commonCss = "font-bold px-2 md:px-4 py-1 cursor-pointer rounded-2xl transition duration-200 flex ";
 
@@ -21,9 +21,10 @@ const NavItem = ({ to, content, icon }) => {
 export default function Navbar({ walletConnected, handleWalletConnect, walletAddress }) {
     const navItems = [
         { name: "Borrow", path: "/", icon: FiBookOpen },
+        { name: "My Borrows", path: "/my-borrows", icon: FiBookOpen},
         { name: "Lend", path: "/lend", icon: FiDollarSign },
+        { name: "My Lends", path: "/my-lends", icon: FiDollarSign},
         { name: "Credit Score", path: "/credit-score", icon: FiCreditCard },
-        // { name: "Credit Verify", path: "/credit-verify", icon: FiCreditCard },
     ];
 
     return (

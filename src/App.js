@@ -7,7 +7,8 @@ import { Routes, Route } from "react-router-dom";
 import Borrow from './components/Borrow';
 import Lend from './components/Lend';
 import CreditScore from './components/CreditScore';
-import VerifyScore from './components/VerifyScore';
+import MyBorrows from './components/MyBorrows';
+import MyLends from './components/MyLends';
 import Error from './components/Error';
 import Navbar from './components/Navbar'; // Import the Navbar component
 import config from './config/Constants.json';
@@ -39,7 +40,7 @@ function App() {
     }
   };
 
-  const connectChainId = 11155111;
+  const connectChainId = 534351;
 
   return (
     <WalletContext.Provider value={{ walletAddress, setWalletAddress }}>
@@ -49,9 +50,10 @@ function App() {
           {walletConnected && chainID === connectChainId && (
             <Routes>
               <Route path="/" element={<Borrow walletConnected={walletConnected} walletAddress={walletAddress} />} />
-              <Route path="/lend" element={<Lend />} />
-              <Route path="/credit-score" element={<CreditScore />} />
-              {/* <Route path="/credit-verify" element={<VerifyScore />} /> */}
+              <Route path="/lend" element={<Lend walletConnected={walletConnected} walletAddress={walletAddress} />} />
+              <Route path="/credit-score" element={<CreditScore walletConnected={walletConnected} walletAddress={walletAddress} />} />
+              <Route path='/my-borrows' element={<MyBorrows walletConnected={walletConnected} walletAddress={walletAddress} />} />
+              <Route path='/my-lends' element={<MyLends walletConnected={walletConnected} walletAddress={walletAddress} />} />
               <Route path="*" element={<Error />} />
             </Routes>
           )}

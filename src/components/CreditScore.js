@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { fetchActivityData } from '../utils/ActivityData';
 import { WalletContext } from '../App';
 import { AddressActivityListView } from '@covalenthq/goldrush-kit';
+
 const ethers = require('ethers');
 
 /* global BigInt */
@@ -75,9 +76,11 @@ function CreditScore() {
         <>
             <div className="flex flex-col items-center mt-10 w-full">
                 <h2 className="text-lg text-white mb-4">On Chain Activities</h2>
-                <div className="bg-gray-800 p-5 rounded-lg shadow-lg w-3/4 max-w-4xl">
+                <div className="bg-gray-800 p-5 rounded-lg shadow-lg w-3/4 max-w-4xl h-96 overflow-y-auto">
                     <AddressActivityListView address={walletAddress} />
                 </div>
+                <p>Your credit score is: {creditScore ? creditScore : 'No data available'}</p>
+                <button onClick={() => calculateCreditScore(transactions)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Refresh Credit Score</button>
                 <div className="absolute bottom-4 right-4 text-green-500">
                     <p>Latest Transaction on Scroll Testnet: {new Date(creditData.latestTxDate).toLocaleString()}</p>
                 </div>

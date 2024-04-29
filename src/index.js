@@ -4,15 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import { CredZProvider } from './context/CredZProvider';
 
 /* global BigInt */
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <CredZProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </CredZProvider>
   </Router>
 );
 
