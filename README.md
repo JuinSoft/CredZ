@@ -9,7 +9,6 @@ CredZ is a decentralized lending platform built on the Scroll blockchain. It all
 2. **Lending:** Lenders can browse available loan requests and choose to fund them. Higher credit scores indicate lower risk.
 3. **Credit Scores:** Each user has a credit score that is updated based on their lending and borrowing activity. Repaying loans on time increases the score, while defaults lower it.
 4. **Decentralization:** The platform operates through smart contracts, ensuring transparency and eliminating the need for intermediaries.
-5. **Security:** Funds are held in escrow by the smart contract until the loan is repaid or defaulted.
 
 ### Technologies Used:
 - React for the frontend
