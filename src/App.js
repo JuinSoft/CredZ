@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import './App.css';
 import { GoldRushProvider } from '@covalenthq/goldrush-kit';
 import '@covalenthq/goldrush-kit/styles.css';
@@ -10,11 +10,13 @@ import CreditScore from './components/CreditScore';
 import MyBorrows from './components/MyBorrows';
 import MyLends from './components/MyLends';
 import Error from './components/Error';
-import Navbar from './components/Navbar'; // Import the Navbar component
+import Navbar from './components/Navbar';
 import config from './config/Constants.json';
+import { ToastContainer } from 'react-toastify';
+
+
 const apiKey = config.api.covalent;
 export const WalletContext = createContext(null);
-
 function App() {
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
@@ -39,6 +41,27 @@ function App() {
       setWalletAddress('');
     }
   };
+
+  useEffect(() => {
+    const connectWalletOnPageLoad = async () => {
+      if (window.ethereum) {
+        try {
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const accounts = await provider.listAccounts();
+          if (accounts.length > 0) {
+            const signer = await provider.getSigner();
+            const address = await signer.getAddress();
+            const network = await provider.getNetwork();
+            setChainID(parseInt(network.chainId));
+            setWalletConnected(true);
+            setWalletAddress(address);
+          }
+        } catch (error) {
+        }
+      }
+    };
+    connectWalletOnPageLoad();
+  }, []);
 
   const connectChainId = 534351; //534351;
 
@@ -71,6 +94,7 @@ function App() {
               </div>
             )
           }
+          <ToastContainer />
         </div>
       </GoldRushProvider>
     </WalletContext.Provider>

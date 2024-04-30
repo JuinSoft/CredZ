@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { loanAbi, loanContractAddress } from "../utils/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from 'react-toastify';
 
 export const CredZContext = createContext();
 const ethers = require("ethers");
@@ -47,9 +48,18 @@ export const CredZProvider = ({ children }) => {
   const getCreditScore = async () => {
     try {
       const contract = await createLoanContract();
-      return await contract.getCreditScore();
+      const creditScore = await contract.getCreditScore();
+      // toast.success("Credit score retrieved successfully!", {
+      //   position: "top-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+      return creditScore;
     } catch (error) {
-      console.error("Error getting credit score:", error);
       toast.error("Error getting credit score. Please try again.", {
         position: "top-right",
         autoClose: 5000,
@@ -67,6 +77,15 @@ export const CredZProvider = ({ children }) => {
     try {
       const contract = await createLoanContract();
       await contract.setInitialCreditScore(account);
+      toast.success("Initial credit score set successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.error("Error setting initial credit score:", error);
       toast.error("Error setting initial credit score. Please try again.", {
@@ -83,12 +102,22 @@ export const CredZProvider = ({ children }) => {
 
   const requestEtherLoan = async (amount, loanDurationDays) => {
     try {
-      const contract =  await createLoanContract();
+      const contract = await createLoanContract();
       const parsedAmount = ethers.parseEther(amount.toString());
       await contract.requestEtherLoan(parsedAmount, loanDurationDays);
+      toast.success("Loan request successful!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.error("Error requesting ether loan:", error);
-      toast.error("Error requesting ether loan. Please try again.", {
+      const message = error.message.includes("Credit score too low") ? "Low Credit Score. Please refresh or Lend to increase score." : "Error requesting ether loan. Please try again.";
+      toast.error(message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -104,6 +133,15 @@ export const CredZProvider = ({ children }) => {
     try {
       const contract = await createLoanContract();
       await contract.fundLoan(loanId.toString(), { value: amount.toString() });
+      toast.success("Loan funded successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.error("Error funding loan:", error);
       toast.error("Error funding loan. Please try again.", {
@@ -122,9 +160,18 @@ export const CredZProvider = ({ children }) => {
     try {
       const contract = await createLoanContract();
       await contract.repayEtherLoan(loanId.toString(), { value: ethers.parseEther(amount.toString()) });
+      toast.success("Loan repaid successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.error("Error repaying ether loan:", error);
-      toast.error("Error repaying ether loan. Please try again.", {
+      toast.error("Error repaying loan.", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -139,7 +186,17 @@ export const CredZProvider = ({ children }) => {
   const listAvailableLoans = async () => {
     try {
       const contract = await createLoanContract();
-      return await contract.listAvailableLoans();
+      const availableLoans = await contract.listAvailableLoans();
+      // toast.success("Available loans listed successfully!", {
+      //   position: "top-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+      return availableLoans;
     } catch (error) {
       console.error("Error listing available loans:", error);
       toast.error("Error listing available loans. Please try again.", {
@@ -157,8 +214,17 @@ export const CredZProvider = ({ children }) => {
   const listUserLoans = async () => {
     try {
       const contract = await createLoanContract();
-      console.log("contract", contract);
-      return await contract.listUserLoans();
+      const userLoans = await contract.listUserLoans();
+      // toast.success("User loans listed successfully!", {
+      //   position: "top-right",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+      return userLoans;
     } catch (error) {
       console.error("Error listing user loans:", error);
       toast.error("Error listing user loans. Please try again.", {
@@ -176,7 +242,17 @@ export const CredZProvider = ({ children }) => {
   const listFundedButNotRepaidLoans = async () => {
     try {
       const contract = await createLoanContract();
-      return await contract.listFundedButNotRepaidLoans();
+      const fundedLoans = await contract.listFundedButNotRepaidLoans();
+      toast.success("Funded but not repaid loans listed successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return fundedLoans;
     } catch (error) {
       console.error("Error listing funded but not repaid loans:", error);
       toast.error("Error listing funded but not repaid loans. Please try again.", {
@@ -194,7 +270,17 @@ export const CredZProvider = ({ children }) => {
   const listUserInvolvedLoans = async (userAddress) => {
     try {
       const contract = await createLoanContract();
-      return await contract.listUserInvolvedLoans(userAddress);
+      const userInvolvedLoans = await contract.listUserInvolvedLoans(userAddress);
+      toast.success("User involved loans listed successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return userInvolvedLoans;
     } catch (error) {
       console.error("Error listing user involved loans:", error);
       toast.error("Error listing user involved loans. Please try again.", {
@@ -220,24 +306,27 @@ export const CredZProvider = ({ children }) => {
   }, []);
 
   return (
-    <CredZContext.Provider
-      value={{
-        account,
-        provider,
-        isSupportMetaMask,
-        fetchAccount,
-        getCreditScore,
-        requestEtherLoan,
-        fundLoan,
-        repayEtherLoan,
-        listAvailableLoans,
-        listUserLoans,
-        listFundedButNotRepaidLoans,
-        listUserInvolvedLoans,
-        setInitialCreditScore,
-      }}
-    >
-      {children}
-    </CredZContext.Provider>
+    <>
+      <CredZContext.Provider
+        value={{
+          account,
+          provider,
+          isSupportMetaMask,
+          fetchAccount,
+          getCreditScore,
+          requestEtherLoan,
+          fundLoan,
+          repayEtherLoan,
+          listAvailableLoans,
+          listUserLoans,
+          listFundedButNotRepaidLoans,
+          listUserInvolvedLoans,
+          setInitialCreditScore,
+        }}
+      >
+        {children}
+      </CredZContext.Provider>
+      <ToastContainer />
+    </>
   );
 };

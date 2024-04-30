@@ -2,39 +2,18 @@ import React, { useState, useContext } from 'react';
 import { CredZContext } from '../context/CredZProvider';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function Borrow({ walletConnected, walletAddress }) {
     const [borrowAmount, setBorrowAmount] = useState('');
-    const [collateralAmount, setCollateralAmount] = useState('');
-    const [loanDuration, setLoanDuration] = useState('');
+    const [loanDuration, setLoanDuration] = useState('7');
     const { requestEtherLoan } = useContext(CredZContext);
 
     const handleBorrow = async () => {
         // Handle borrow logic here
-        const res = await requestEtherLoan(borrowAmount, loanDuration);
-        if (res) {
-            toast.success('Loan request submitted successfully!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            setBorrowAmount('');
-            setLoanDuration('');
-        } else {
-            toast.error('Error submitting loan request. Please try again.', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        }
+        await requestEtherLoan(borrowAmount, loanDuration);
+        setBorrowAmount('');
+        setLoanDuration('7');
     };
 
     return (
@@ -91,6 +70,7 @@ function Borrow({ walletConnected, walletAddress }) {
                     {walletConnected ? 'Borrow' : 'Connect Wallet'}
                 </button>
             </div>
+            <ToastContainer />
         </div>
     );
 }

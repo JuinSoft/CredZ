@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CredZContext } from '../context/CredZProvider';
-const ethers = require("ethers");
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const ethers = require("ethers");
 /* global BigInt */
 export default function MyBorrows() {
     const { listUserLoans, repayEtherLoan } = useContext(CredZContext);
@@ -84,6 +86,7 @@ export default function MyBorrows() {
                 <p>Note 1: Interest rates are dynamic and based on credit score.</p>
                 <p>Note 2: Credit score is also dynamic and gets updated based on on-chain activity, lending, and borrowing.</p>
             </div>
+            <ToastContainer />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 {
     "chainId": 534351,
-    "chainName": "Scroll Testnet",
+    "chainName": "scroll-sepolia-testnet",
     "rpc": [
         "https://eth-sepolia-public.unifra.io"
     ],
