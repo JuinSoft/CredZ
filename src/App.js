@@ -60,14 +60,14 @@ function App() {
           {
             chainID != connectChainId && (
               <div className="flex justify-center items-center h-screen">
-                <p className="text-white text-2xl">Please connect to Scroll Testnet</p>
+                <p className="text-white text-2xl">Please connect to Sepolia Testnet</p>
               </div>
             )
           }
           {
             !walletConnected && (
               <div className="flex justify-center items-center h-screen">
-                <p className="text-white text-2xl">Please connect your wallet to Scroll testnet!</p>
+                <p className="text-white text-2xl">Please connect your wallet to Sepolia Testnet!</p>
               </div>
             )
           }

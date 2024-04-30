@@ -103,7 +103,7 @@ export const CredZProvider = ({ children }) => {
   const fundLoan = async (loanId, amount) => {
     try {
       const contract = await createLoanContract();
-      await contract.fundLoan(loanId.toString(), { value: ethers.parseEther(amount.toString()) });
+      await contract.fundLoan(loanId.toString(), { value: amount.toString() });
     } catch (error) {
       console.error("Error funding loan:", error);
       toast.error("Error funding loan. Please try again.", {
