@@ -2,7 +2,7 @@
 A decentralized lending platform that enables users to borrow and lend funds based on their on-chain credit score.
 
 ### Detailed Description
-CredZ is a decentralized lending platform built on the Ethereum blockchain. It allows users to request loans and lend funds to others based on their credit score, which is dynamically calculated using on-chain activity.
+CredZ is a decentralized lending platform built on the Scroll blockchain. It allows users to request loans and lend funds to others based on their credit score, which is dynamically calculated using on-chain activity.
 
 #### Key Features:
 1. **Borrowing:** Users can request loans by specifying the amount and duration. The interest rate is determined by their credit score.
