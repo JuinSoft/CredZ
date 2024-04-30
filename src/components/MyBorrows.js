@@ -9,8 +9,16 @@ export default function MyBorrows() {
 
     useEffect(() => {
         const fetchLoans = async () => {
-            const data = await listUserLoans();
-            setLoans(data.filter(loan => loan[6] === false)); // Filter out loans where Paid is false
+            try {
+                const data = await listUserLoans();
+                if (!data) {
+                    console.error('No data returned from listUserLoans');
+                    return;
+                }
+                setLoans(data.filter(loan => loan[6] === false)); // Filter out loans where Paid is false
+            } catch (error) {
+                console.error('Error fetching loans:', error);
+            }
         };
         fetchLoans();
     }, []);

@@ -7,7 +7,7 @@ import config from '../config/Constants.json';
  */
 export const fetchActivityData = async (address) => {
     try {
-        const response = await fetch(`https://api.covalenthq.com/v1/11155111/address/${address}/transactions_v2/?key=${config.api.covalent}`);
+        const response = await fetch(`https://api.covalenthq.com/v1/534351/address/${address}/transactions_v2/?key=${config.api.covalent}`);
         const data = await response.json();
         return data.data; // Return the items directly for easier use in components
     } catch (error) {

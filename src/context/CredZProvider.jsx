@@ -157,6 +157,7 @@ export const CredZProvider = ({ children }) => {
   const listUserLoans = async () => {
     try {
       const contract = await createLoanContract();
+      console.log("contract", contract);
       return await contract.listUserLoans();
     } catch (error) {
       console.error("Error listing user loans:", error);

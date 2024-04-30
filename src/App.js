@@ -40,7 +40,7 @@ function App() {
     }
   };
 
-  const connectChainId = 11155111; //534351;
+  const connectChainId = 534351; //534351;
 
   return (
     <WalletContext.Provider value={{ walletAddress, setWalletAddress }}>
@@ -60,14 +60,14 @@ function App() {
           {
             chainID != connectChainId && (
               <div className="flex justify-center items-center h-screen">
-                <p className="text-white text-2xl">Please connect to Sepolia Testnet</p>
+                <p className="text-white text-2xl">Please connect to Scroll Sepolia Testnet</p>
               </div>
             )
           }
           {
             !walletConnected && (
               <div className="flex justify-center items-center h-screen">
-                <p className="text-white text-2xl">Please connect your wallet to Sepolia Testnet!</p>
+                <p className="text-white text-2xl">Please connect your wallet to Scroll Sepolia Testnet!</p>
               </div>
             )
           }

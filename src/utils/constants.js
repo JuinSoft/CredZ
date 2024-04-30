@@ -1,3 +1,3 @@
 import loanABI from "./CredzContract.json";
 export const loanAbi = loanABI.abi;
-export const loanContractAddress = "0x98b70e377a7580a77584398a6f5a3006b51cf83e";
+export const loanContractAddress = "0x89a3257640972b869f7b75b5980e229e1dee3f6e";
