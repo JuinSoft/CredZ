@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CredZContext } from '../context/CredZProvider';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ethers = require("ethers");
 
 export default function Lend({ walletAddress }) {
@@ -17,6 +19,15 @@ export default function Lend({ walletAddress }) {
 
     const handleLending = async (loanId, amount) => {
         await fundLoan(loanId, amount);
+        toast.success('Loan funded successfully!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     }
 
     return (
