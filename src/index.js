@@ -9,13 +9,13 @@ import { CredZProvider } from './context/CredZProvider';
 /* global BigInt */
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Router>
-    <CredZProvider>
+  <CredZProvider>
+    <Router>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </CredZProvider>
-  </Router>
+    </Router>
+  </CredZProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

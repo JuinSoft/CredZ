@@ -24,47 +24,55 @@ export const CredZProvider = ({ children }) => {
     setAccount(accounts[0]);
   };
 
-  const createLoanContract = () => {
-    return new ethers.Contract(loanContractAddress, loanAbi, provider.getSigner());
+  const createLoanContract = async () => {
+    const signer = await provider.getSigner();
+    return new ethers.Contract(loanContractAddress, loanAbi, signer);
   };
 
   const getCreditScore = async () => {
-    const contract = createLoanContract();
+    const contract = await createLoanContract();
     return await contract.getCreditScore();
   };
 
+  // only for testing
+  const setInitialCreditScore = async (account) => {
+    const contract = await createLoanContract();
+    await contract.setInitialCreditScore(account);
+  };
+
   const requestEtherLoan = async (amount, loanDurationDays) => {
-    const contract = createLoanContract();
-    await contract.requestEtherLoan(amount, loanDurationDays);
+    const contract =  await createLoanContract();
+    const parsedAmount = ethers.parseEther(amount.toString());
+    await contract.requestEtherLoan(parsedAmount, loanDurationDays);
   };
 
   const fundLoan = async (loanId, amount) => {
-    const contract = createLoanContract();
-    await contract.fundLoan(loanId, { value: ethers.parseEther(amount.toString()) });
+    const contract = await createLoanContract();
+    await contract.fundLoan(loanId.toString(), { value: ethers.parseEther(amount.toString()) });
   };
 
   const repayEtherLoan = async (loanId, amount) => {
-    const contract = createLoanContract();
-    await contract.repayEtherLoan(loanId, { value: ethers.parseEther(amount.toString()) });
+    const contract = await createLoanContract();
+    await contract.repayEtherLoan(loanId.toString(), { value: ethers.parseEther(amount.toString()) });
   };
 
   const listAvailableLoans = async () => {
-    const contract = createLoanContract();
+    const contract = await createLoanContract();
     return await contract.listAvailableLoans();
   };
 
   const listUserLoans = async () => {
-    const contract = createLoanContract();
+    const contract = await createLoanContract();
     return await contract.listUserLoans();
   };
 
   const listFundedButNotRepaidLoans = async () => {
-    const contract = createLoanContract();
+    const contract = await createLoanContract();
     return await contract.listFundedButNotRepaidLoans();
   };
 
   const listUserInvolvedLoans = async (userAddress) => {
-    const contract = createLoanContract();
+    const contract = await createLoanContract();
     return await contract.listUserInvolvedLoans(userAddress);
   };
 
@@ -76,7 +84,7 @@ export const CredZProvider = ({ children }) => {
       }
     };
     fetchData();
-  }, [provider]);
+  }, []);
 
   return (
     <CredZContext.Provider
@@ -92,7 +100,8 @@ export const CredZProvider = ({ children }) => {
         listAvailableLoans,
         listUserLoans,
         listFundedButNotRepaidLoans,
-        listUserInvolvedLoans
+        listUserInvolvedLoans,
+        setInitialCreditScore,
       }}
     >
       {children}

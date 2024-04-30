@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CredZContext } from '../context/CredZProvider';
 
 function Borrow({ walletConnected, walletAddress }) {
     const [borrowAmount, setBorrowAmount] = useState('');
     const [collateralAmount, setCollateralAmount] = useState('');
     const [loanDuration, setLoanDuration] = useState('');
+    const { requestEtherLoan } = useContext(CredZContext);
 
-    const handleBorrow = () => {
+    const handleBorrow = async () => {
         // Handle borrow logic here
+        const res = await requestEtherLoan(borrowAmount, loanDuration);
     };
 
     return (

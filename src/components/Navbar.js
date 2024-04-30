@@ -23,7 +23,7 @@ export default function Navbar({ walletConnected, handleWalletConnect, walletAdd
         { name: "Borrow", path: "/", icon: FiBookOpen },
         { name: "My Borrows", path: "/my-borrows", icon: FiBookOpen},
         { name: "Lend", path: "/lend", icon: FiDollarSign },
-        { name: "My Lends", path: "/my-lends", icon: FiDollarSign},
+        // { name: "My Lends", path: "/my-lends", icon: FiDollarSign},  // due to time constraints, we will not implement this feature
         { name: "Credit Score", path: "/credit-score", icon: FiCreditCard },
     ];
 

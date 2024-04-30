@@ -40,7 +40,7 @@ function App() {
     }
   };
 
-  const connectChainId = 534351;
+  const connectChainId = 11155111; //534351;
 
   return (
     <WalletContext.Provider value={{ walletAddress, setWalletAddress }}>
@@ -53,7 +53,7 @@ function App() {
               <Route path="/lend" element={<Lend walletConnected={walletConnected} walletAddress={walletAddress} />} />
               <Route path="/credit-score" element={<CreditScore walletConnected={walletConnected} walletAddress={walletAddress} />} />
               <Route path='/my-borrows' element={<MyBorrows walletConnected={walletConnected} walletAddress={walletAddress} />} />
-              <Route path='/my-lends' element={<MyLends walletConnected={walletConnected} walletAddress={walletAddress} />} />
+              {/* <Route path='/my-lends' element={<MyLends walletConnected={walletConnected} walletAddress={walletAddress} />} /> */}
               <Route path="*" element={<Error />} />
             </Routes>
           )}

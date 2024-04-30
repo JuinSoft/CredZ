@@ -46,10 +46,15 @@ contract CredZ {
         return creditScore_;
     }
 
-    // for testing purpose
-    function setInitialCreditScore(address _user, int score) public {
+    function getBorrowerScore(address _borrower) public view returns (uint) {
+        uint creditScore_ = creditScore.getCreditScore(_borrower);
+        return creditScore_;
+    }
+
+    // for testing purpose the score is set to 700 initially
+    function setInitialCreditScore(address _user) public {
         require(creditScore.getCreditScore(_user) == 0, "Credit score already initialized!");
-        creditScore.updateCreditScore(_user, score);
+        creditScore.updateCreditScore(_user, 700);
     }
 
     function calculateInterest(uint _creditScore) public pure returns (uint) {
@@ -83,27 +88,25 @@ contract CredZ {
     }
 
     function fundLoan(uint _loanId) public payable {
-        require(_loanId <= _loanIdCounter.current(), "Loan ID does not exist");
-        Loan storage loan = loans[_loanId];
+        require(_loanId > 0 && _loanId <= _loanIdCounter.current(), "Loan ID does not exist");
+        Loan storage loan = loans[_loanId - 1]; // Adjust for zero-based index
         require(loan.borrower != address(0), "Invalid loan request");
-        require(msg.value == loan.amount, "Incorrect amount");
         require(!loan.isFunded, "Loan already funded");
         loan.lender = msg.sender;
         loan.isFunded = true;
-        payable(loan.borrower).transfer(msg.value);
+        payable(loan.borrower).transfer(loan.amount);
         emit LoanFunded(_loanId, msg.sender);
     }
 
     function repayEtherLoan(uint _loanId) public payable {
-        require(_loanId <= _loanIdCounter.current(), "Loan ID does not exist");
-        Loan storage loan = loans[_loanId];
+        require(_loanId > 0 && _loanId <= _loanIdCounter.current(), "Loan ID does not exist");
+        Loan storage loan = loans[_loanId - 1]; // Adjust for zero-based index
         require(msg.sender == loan.borrower, "Only borrower can repay");
         require(loan.isFunded, "Loan not funded");
         uint totalDue = loan.amount.add(loan.amount.mul(loan.interestRate).div(100));
-        require(msg.value >= totalDue, "Not enough Ether sent to cover the loan and interest");
         require(!loan.isPaid, "Loan already repaid");
         loan.isPaid = true;
-        payable(loan.lender).transfer(msg.value);
+        payable(loan.lender).transfer(totalDue);
         creditScore.updateCreditScore(msg.sender, 30);
         emit LoanRepaid(_loanId, msg.sender);
     }
@@ -171,7 +174,7 @@ contract CredZ {
     function listUserInvolvedLoans(address _user) public view returns (Loan[] memory) {
         uint count;
         for (uint i = 0; i < loans.length; i++) {
-            if (loans[i].borrower == _user || (loans[i].lender == _user && loans[i].isFunded)) {
+            if (loans[i].lender == _user && loans[i].isFunded) {
                 count++;
             }
         }
@@ -179,7 +182,7 @@ contract CredZ {
         Loan[] memory involvedLoans = new Loan[](count);
         uint j = 0;
         for (uint i = 0; i < loans.length; i++) {
-            if (loans[i].borrower == _user || (loans[i].lender == _user && loans[i].isFunded)) {
+            if (loans[i].lender == _user && loans[i].isFunded) {
                 involvedLoans[j++] = loans[i];
             }
         }
